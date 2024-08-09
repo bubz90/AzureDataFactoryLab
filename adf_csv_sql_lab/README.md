@@ -1,3 +1,89 @@
+### Part 1
+### Detailed Guide on ETL from CSV to SQL Server Using Azure Data Factory
+
+This guide will walk you through the process of setting up an ETL (Extract, Transform, Load) pipeline using Azure Data Factory (ADF) to load data from a CSV file into a SQL Server database.
+
+#### **Prerequisites**
+- **Azure Subscription**: An active Azure account.
+- **SQL Server Database**: SQL Server or Azure SQL Database with a table created to receive the data.
+- **Azure Blob Storage**: Blob storage to hold the CSV files.
+
+#### **Step 1: Set Up Azure Resources**
+
+1. **Create an Azure Storage Account**:
+   - Navigate to the Azure portal.
+   - Click on `Create a resource` and select `Storage account`.
+   - Fill in the required details, select a resource group, and create the storage account.
+   - Once created, go to the storage account, create a new container (e.g., "csv-files"), and upload your CSV file to this container.
+
+2. **Create an Azure SQL Database**:
+   - In the Azure portal, go to `Create a resource`, select `SQL Database`.
+   - Configure the SQL server, database name, and other settings.
+   - Once the database is created, use SQL Server Management Studio (SSMS) or the query editor in the Azure portal to create the necessary table that matches your CSV schema.
+
+#### **Step 2: Create Linked Services in Azure Data Factory**
+
+1. **Create Azure Data Factory**:
+   - Navigate to `Create a resource` and select `Data Factory`.
+   - Configure the resource by selecting the appropriate subscription, resource group, and region.
+   - Once created, click on `Author & Monitor` to open the ADF Studio.
+
+2. **Create Linked Service for Azure Blob Storage**:
+   - In ADF Studio, go to `Manage` on the left-hand menu.
+   - Under `Linked services`, click `New` and choose `Azure Blob Storage`.
+   - Name the linked service, select the subscription, and choose the storage account you created earlier. Test the connection and create.
+
+3. **Create Linked Service for Azure SQL Database**:
+   - Similarly, create another linked service but choose `Azure SQL Database`.
+   - Provide the necessary connection details such as server name, database name, authentication type, and credentials. Test the connection and create.
+
+#### **Step 3: Create Datasets**
+
+1. **Create Dataset for CSV File**:
+   - In ADF Studio, under `Author`, click on `+` and choose `Dataset`.
+   - Select `Azure Blob Storage`, then `DelimitedText`.
+   - Link it to the Blob Storage linked service you created earlier.
+   - Configure the dataset by selecting the container and the CSV file path.
+
+2. **Create Dataset for SQL Table**:
+   - Similarly, create another dataset but select `Azure SQL Database` as the type.
+   - Link it to the SQL Database linked service.
+   - Configure the dataset by selecting the database and the table you created earlier.
+
+#### **Step 4: Create the Pipeline**
+
+1. **Create a New Pipeline**:
+   - In ADF Studio, under `Author`, click `+` and select `Pipeline`.
+   - Name your pipeline (e.g., `CSV_to_SQL_ETL`).
+
+2. **Add a Copy Data Activity**:
+   - Drag the `Copy Data` activity from the activities pane onto the pipeline canvas.
+   - In the properties pane, configure the source by selecting the CSV dataset.
+   - Configure the sink by selecting the SQL dataset.
+   - Map the columns from the CSV to the SQL table columns. If they match exactly, ADF will auto-map them.
+
+3. **Set Pipeline Parameters and Triggers (Optional)**:
+   - You can add parameters to make the pipeline more dynamic (e.g., file path, table name).
+   - You can also set up a trigger to run the pipeline on a schedule or based on an event.
+
+#### **Step 5: Run and Monitor the Pipeline**
+
+- Click `Debug` to test the pipeline with real data.
+- After debugging, publish the pipeline.
+- Monitor the pipeline execution by going to the `Monitor` section in ADF Studio. Check for any errors and ensure data has been transferred to the SQL table.
+
+#### **Additional Notes**
+- **Error Handling**: You can add additional activities for error handling, like sending notifications or writing logs to a storage account.
+- **Data Transformation**: If your data requires transformation, consider using a Data Flow activity instead of a simple Copy Data activity.
+
+### **References**
+- **[Azure Data Factory Documentation](https://docs.microsoft.com/en-us/azure/data-factory/introduction)**: Comprehensive guide to all features and best practices.
+- **[GitHub Example](https://github.com/sarannng/ETL-pipeline-project)**: Example ETL project from CSV to SQL Server using ADF【11†source】.
+- **[Step-by-Step Tutorial](https://github.com/ssquadri/Azure-Data-Factory-Pipeline)**: Detailed guide and code for setting up a similar pipeline【13†source】. 
+
+By following these steps, you should be able to set up a reliable ETL pipeline using Azure Data Factory to move data from CSV files to an SQL Server database.
+
+### Part 2
 ### Enhanced Guide: ETL from CSV to SQL Server Using Azure Data Factory with Transformed Sales Data Table
 
 This guide expands on the previous ETL pipeline by including a step to create a transformed sales data table that joins the Fact Table (`Sales`) with the Dimension Tables (`Products`, `Customers`, `Stores`).
