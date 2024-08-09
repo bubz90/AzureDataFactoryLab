@@ -1,4 +1,4 @@
-To transform data from the provided CSV URLs into the `TransformedSales` table in SQL Server, follow these steps:
+### To transform data from the provided CSV URLs into the `TransformedSales` table in SQL Server, follow these steps:
 
 ### **1. Extract Data from CSV URLs Using Python**
 
