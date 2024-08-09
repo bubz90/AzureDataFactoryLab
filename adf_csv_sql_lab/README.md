@@ -83,6 +83,10 @@ This guide will walk you through the process of setting up an ETL (Extract, Tran
 
 By following these steps, you should be able to set up a reliable ETL pipeline using Azure Data Factory to move data from CSV files to an SQL Server database.
 
+
+---
+
+
 ### Part 2
 ### Enhanced Guide: ETL from CSV to SQL Server Using Azure Data Factory with Transformed Sales Data Table
 
